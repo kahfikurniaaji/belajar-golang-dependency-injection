@@ -7,13 +7,13 @@ import (
 	"github.com/go-playground/assert/v2"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/app"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/controller"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/helper"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/middleware"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/model/domain"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/repository"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/service"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/app"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/controller"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/helper"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/middleware"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/model/domain"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/repository"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/service"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -37,9 +37,9 @@ func setupTestDB() *sql.DB {
 
 func setupRouter(db *sql.DB) http.Handler {
 	validate := validator.New()
-	categoryRepository := repository.NewCategoryRepository()
-	categoryService := service.NewCategoryService(categoryRepository, db, validate)
-	categoryController := controller.NewCategoryController(categoryService)
+	categoryRepository := repository.NewCategoryRepositoryImpl()
+	categoryService := service.NewCategoryServiceImpl(categoryRepository, db, validate)
+	categoryController := controller.NewCategoryControllerImpl(categoryService)
 	router := app.NewRouter(categoryController)
 
 	return middleware.NewAuthMiddleware(router)
@@ -104,7 +104,7 @@ func TestUpdateCategorySuccess(t *testing.T) {
 	truncateCategory(db)
 
 	tx, _ := db.Begin()
-	categoryRepository := repository.NewCategoryRepository()
+	categoryRepository := repository.NewCategoryRepositoryImpl()
 	category := categoryRepository.Save(context.Background(), tx, domain.Category{
 		Name: "Gadget",
 	})
@@ -139,7 +139,7 @@ func TestUpdateCategoryFailed(t *testing.T) {
 	truncateCategory(db)
 
 	tx, _ := db.Begin()
-	categoryRepository := repository.NewCategoryRepository()
+	categoryRepository := repository.NewCategoryRepositoryImpl()
 	category := categoryRepository.Save(context.Background(), tx, domain.Category{
 		Name: "Gadget",
 	})
@@ -172,7 +172,7 @@ func TestGetCategorySuccess(t *testing.T) {
 	truncateCategory(db)
 
 	tx, _ := db.Begin()
-	categoryRepository := repository.NewCategoryRepository()
+	categoryRepository := repository.NewCategoryRepositoryImpl()
 	category := categoryRepository.Save(context.Background(), tx, domain.Category{
 		Name: "Gadget",
 	})
@@ -229,7 +229,7 @@ func TestDeleteCategorySuccess(t *testing.T) {
 	truncateCategory(db)
 
 	tx, _ := db.Begin()
-	categoryRepository := repository.NewCategoryRepository()
+	categoryRepository := repository.NewCategoryRepositoryImpl()
 	category := categoryRepository.Save(context.Background(), tx, domain.Category{
 		Name: "Gadget",
 	})
@@ -286,7 +286,7 @@ func TestListCategoriesSuccess(t *testing.T) {
 	truncateCategory(db)
 
 	tx, _ := db.Begin()
-	categoryRepository := repository.NewCategoryRepository()
+	categoryRepository := repository.NewCategoryRepositoryImpl()
 	category1 := categoryRepository.Save(context.Background(), tx, domain.Category{
 		Name: "Gadget",
 	})

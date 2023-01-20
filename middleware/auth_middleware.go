@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/helper"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/model/web"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/helper"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/model/web"
 	"net/http"
 )
 

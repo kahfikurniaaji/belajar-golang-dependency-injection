@@ -4,14 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/helper"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/model/domain"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/helper"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/model/domain"
 )
 
 type CategoryRepositoryImpl struct {
 }
 
-func NewCategoryRepository() CategoryRepository {
+func NewCategoryRepositoryImpl() *CategoryRepositoryImpl {
 	return &CategoryRepositoryImpl{}
 }
 

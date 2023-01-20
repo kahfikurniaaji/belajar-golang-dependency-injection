@@ -2,9 +2,9 @@ package controller
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/helper"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/model/web"
-	"github.com/kahfikurniaaji/belajar-golang-restful-api/service"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/helper"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/model/web"
+	"github.com/kahfikurniaaji/belajar-golang-dependency-injection/service"
 	"net/http"
 	"strconv"
 )
@@ -13,7 +13,7 @@ type CategoryControllerImpl struct {
 	CategoryService service.CategoryService
 }
 
-func NewCategoryController(categoryService service.CategoryService) CategoryController {
+func NewCategoryControllerImpl(categoryService service.CategoryService) *CategoryControllerImpl {
 	return &CategoryControllerImpl{CategoryService: categoryService}
 }
 
